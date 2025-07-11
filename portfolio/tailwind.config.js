@@ -10,6 +10,9 @@ export default {
 			backdropBlur: {
 				sm: '4px',
 			  },
+        fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+      },
 			
 			
 		  },

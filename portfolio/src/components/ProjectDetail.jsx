@@ -15,7 +15,54 @@ const TECH_ICONS = {
   HTML: Code,
   CSS: Code,
   default: Package,
+  MongoDB: Package,
+  Node: Code,
+  Express: Globe,
+  Docker: Layout,
+  Gemini: Cpu,
+  AWS: Package
 };
+
+const PROJECTS_DATA = [
+  {
+    id: 1,
+    Title: "Online Judge Platform",
+    Description: "A full-stack online coding platform designed to let users solve programming problems with real-time feedback and AI-powered assistance. It aims to make coding practice easier through instant error explanations and secure user management.",
+    Img: "../../project1.png",
+    Link: "https://www.codeiq.space",
+    Github: "https://github.com/bestcoder22/Online-Judge",
+    Features: [
+  "Built a full-stack Online Judge with 4 language support, custom input, and real-time tracking. Integrated AI for error fixes, explanations, and smart code review.",
+  "Added secure JWT auth with protected routes for users/admins. Included admin panel, leaderboard, profile, and full CRUD for problems and submissions.",
+  "Deployed using Docker on AWS EC2 and Vercel. Set up HTTPS, custom domain, and image hosting via AWS ECR."
+],
+    TechStack: ["React", "Node", "Express", "MongoDB", "Docker", "AWS", "Gemini", "Tailwind"]
+  },
+  {
+    id: 2,
+    Title: "E-Commerce Website",
+    Description: "Shopper is a dynamic e-commerce web application built with the MERN stack, designed for seamless online shopping. It features responsive product listings across categories, secure user authentication, and a persistent cart system. An admin panel enables real-time product management, while optimized RESTful APIs improve performance and user experience.",
+    Img: "../../project2.png",
+    Github: "https://github.com/bestcoder22/Shopper---E-Commerce_Clothing_Web_Application",
+    Features: ["Constructed a full-stack e-commerce website for a clothing store using the MERN stack with responsive sections for Men, Women, and Kids, featuring a product catalog, cart functionality, and secure login/registration.", 
+    "Designed an admin panel for product management, streamlining inventory control, and established real-time user sessions with cart persistence, reducing cart abandonment by 20%.", 
+    "Optimized MongoDB storage using RESTful APIs, reducing query times by 25% for faster CRUD operations."
+  ],
+    TechStack: ["React", "Node", "Express", "MongoDB"]
+  },
+  {
+    id: 3,
+    Title: "Zoom-Clone Project",
+    Description: "This video conferencing platform is built to enable seamless real-time communication with low latency using Node.js, Express.js, and Socket.IO. It supports up to 4 participants per room with features like video/audio controls, chat, and secure room handling. Peer-to-peer connections via PeerJS reduce lag, while a responsive UI ensures smooth interaction and usability.",
+    Img: "../../project3.png",
+    Github: "https://github.com/bestcoder22/Zoom-Clone-Project/tree/main",
+    Features: ["Built a video conferencing platform using TCP/IP protocols with core features like chat, mute/unmute, and video controls using HTML, CSS, JavaScript, Node.js, and Express.js.",
+    "Integrated PeerJs to connect up to 4 participants per room, reducing lag by 15%, and enhanced functionality with security, leave meeting, and participant buttons, boosting feature completeness by 20%.",
+    "Utilized Socket.IO to keep latency below 200 ms for real-time, bidirectional communication, delivering a seamless user experience."
+  ],
+    TechStack: ["WebSocket", "Express", "Node", "EJS"]
+  },
+];
 
 const TechBadge = ({ tech }) => {
   const Icon = TECH_ICONS[tech] || TECH_ICONS["default"];
@@ -61,7 +108,7 @@ const ProjectStats = ({ project }) => {
         </div>
         <div className="flex-grow">
           <div className="text-lg md:text-xl font-semibold text-blue-200">{techStackCount}</div>
-          <div className="text-[10px] md:text-xs text-gray-400">Total Teknologi</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Total Technologies</div>
         </div>
       </div>
 
@@ -71,7 +118,7 @@ const ProjectStats = ({ project }) => {
         </div>
         <div className="flex-grow">
           <div className="text-lg md:text-xl font-semibold text-purple-200">{featuresCount}</div>
-          <div className="text-[10px] md:text-xs text-gray-400">Fitur Utama</div>
+          <div className="text-[10px] md:text-xs text-gray-400">Key Features</div>
         </div>
       </div>
     </div>
@@ -101,20 +148,21 @@ const ProjectDetails = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const storedProjects = JSON.parse(localStorage.getItem("projects")) || [];
-    const selectedProject = storedProjects.find((p) => String(p.id) === id);
-    
-    if (selectedProject) {
-      const enhancedProject = {
-        ...selectedProject,
-        Features: selectedProject.Features || [],
-        TechStack: selectedProject.TechStack || [],
-        Github: selectedProject.Github || 'https://github.com/EkiZR',
-      };
-      setProject(enhancedProject);
-    }
-  }, [id]);
+  window.scrollTo(0, 0);
+  // Find project in our in‑memory array
+  const selected = PROJECTS_DATA.find((p) => String(p.id) === id);
+
+  if (selected) {
+    // Ensure arrays exist and provide defaults
+    setProject({
+      ...selected,
+      Features: selected.Features || [],
+      TechStack: selected.TechStack || [],
+      Github: selected.Github || 'https://github.com/bestcoder22',
+    });
+  }
+}, [id]);
+
 
   if (!project) {
     return (
@@ -159,7 +207,7 @@ const ProjectDetails = () => {
           <div className="grid lg:grid-cols-2 gap-8 md:gap-16">
             <div className="space-y-6 md:space-y-10 animate-slideInLeft">
               <div className="space-y-4 md:space-y-6">
-                <h1 className="text-3xl md:text-6xl font-bold bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
+                <h1 className="text-3xl md:text-[54px] font-bold bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight">
                   {project.Title}
                 </h1>
                 <div className="relative h-1 w-16 md:w-24">
@@ -178,16 +226,22 @@ const ProjectDetails = () => {
 
               <div className="flex flex-wrap gap-3 md:gap-4">
                 {/* Action buttons */}
-                <a
-                  href={project.Link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-300 rounded-xl transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
-                >
-                  <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-blue-600/10 to-purple-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
-                  <ExternalLink className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
-                  <span className="relative font-medium">Live Demo</span>
-                </a>
+                {project.Link ? (
+                  <a
+                    href={project.Link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center space-x-1.5 md:space-x-2 px-4 md:px-8 py-2.5 md:py-4 bg-gradient-to-r from-blue-600/10 to-purple-600/10 hover:from-blue-600/20 hover:to-purple-600/20 text-blue-300 rounded-xl transition-all duration-300 border border-blue-500/20 hover:border-blue-500/40 backdrop-blur-xl overflow-hidden text-sm md:text-base"
+                  >
+                    <div className="absolute inset-0 translate-y-[100%] bg-gradient-to-r from-blue-600/10 to-purple-600/10 transition-transform duration-300 group-hover:translate-y-[0%]" />
+                    <ExternalLink className="relative w-4 h-4 md:w-5 md:h-5 group-hover:rotate-12 transition-transform" />
+                    <span className="relative font-medium">Live Demo</span>
+                  </a>
+                ) : (
+                  <></>
+                )
+                }
+                
 
                 <a
                   href={project.Github}

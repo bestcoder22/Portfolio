@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
+
+
 import PropTypes from "prop-types";
-// import SwipeableViews from "react-swipeable-views";
 import { useTheme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
@@ -13,6 +14,48 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Certificate from "../components/Certificate";
 import { Code, Award, Boxes } from "lucide-react";
+
+
+const PROJECTS_DATA = [
+  {
+    id: 1,
+    Title: "Online Judge Platform",
+    // in description write goal, purpose,with features of project mainly goal and purpose
+    Description: "A full-stack online coding platform designed to let users solve programming problems with real-time feedback and AI-powered assistance. It aims to make coding practice easier through instant error explanations and secure user management.",
+    Img: "project1.png",
+    Link: "https://www.codeiq.space",
+    Github: "https://github.com/bestcoder22/Online-Judge",
+  },
+  {
+    id: 2,
+    Title: "E-Commerce Website",
+    Description: "Shopper is a dynamic e-commerce web application built with the MERN stack, designed for seamless online shopping. It features responsive product listings across categories, secure user authentication, and a persistent cart system. An admin panel enables real-time product management, while optimized RESTful APIs improve performance and user experience.",
+    Img: "project2.png",
+    Github: "https://github.com/bestcoder22/Shopper---E-Commerce_Clothing_Web_Application",
+    // Features: ["Main Feature A", "Core Function B", "Key Ability C"],
+    // TechStack: ["React", "Supabase", "Tailwind CSS"]
+  },
+  {
+    id: 3,
+    Title: "Zoom-Clone Project",
+    Description: "This video conferencing platform is built to enable seamless real-time communication with low latency using Node.js, Express.js, and Socket.IO. It supports up to 4 participants per room with features like video/audio controls, chat, and secure room handling. Peer-to-peer connections via PeerJS reduce lag, while a responsive UI ensures smooth interaction and usability.",
+    Img: "project3.png",
+    Github: "https://github.com/bestcoder22/Zoom-Clone-Project/tree/main",
+    // Features: ["Main Feature A", "Core Function B", "Key Ability C"],
+    // TechStack: ["React", "Supabase", "Tailwind CSS"]
+  },
+  
+];
+
+const CERTIFICATES_DATA = [
+  { id: 1, Img: "IICPC Certification.png" },
+  { id: 2, Img: "Full Stack Web Development Certificate - Udemy.png" },
+  { id: 3, Img: "Hackerrank Problem Solving Certificate.png" },
+  { id: 4, Img: "Coderush-Competition.png" },
+
+  
+];
+
 const ToggleButton = ({ onClick, isShowingMore }) => (
   <button
     onClick={onClick}
@@ -97,28 +140,105 @@ function a11yProps(index) {
   };
 }
 
-// techStacks tetap sama
+// techStacks
 const techStacks = [
+  { icon: "c++.svg", language: "C++" },
+  { icon: "python.svg", language: "Python" },
   { icon: "html.svg", language: "HTML" },
   { icon: "css.svg", language: "CSS" },
   { icon: "javascript.svg", language: "JavaScript" },
   { icon: "tailwind.svg", language: "Tailwind CSS" },
+  { icon: "MongoDB.svg", language: "MongoDB" },
   { icon: "reactjs.svg", language: "ReactJS" },
-  { icon: "vite.svg", language: "Vite" },
   { icon: "nodejs.svg", language: "Node JS" },
-  { icon: "bootstrap.svg", language: "Bootstrap" },
-  { icon: "firebase.svg", language: "Firebase" },
+  { icon: "vite.svg", language: "Vite" },
+  { icon: "mysql.svg", language: "MySQL" },
+  { icon: "postgresqledit.svg", language: "PostgreSQL" },
+  { icon: "git.svg", language: "Git" },
+  { icon: "githubgray.svg", language: "Github" },
+  { icon: "awsblack.svg", language: "AWS" },
+  { icon: "dockerfinal.svg", language: "Docker" },
   { icon: "MUI.svg", language: "Material UI" },
   { icon: "vercel.svg", language: "Vercel" },
-  { icon: "SweetAlert.svg", language: "SweetAlert2" },
 ];
 
 export default function FullWidthTabs() {
-  
+  const theme = useTheme();
+  const [value, setValue] = useState(0);
+  const [projects] = useState(PROJECTS_DATA);
+  const [certificates] = useState(CERTIFICATES_DATA);
+  const [showAllProjects, setShowAllProjects] = useState(false);
+  const [showAllCertificates, setShowAllCertificates] = useState(false);
+  const isMobile = window.innerWidth < 768;
+  const initialItems = isMobile ? 4 : 6;
+
+  useEffect(() => {
+    AOS.init({
+      once: false,
+    });
+  }, []);
+
+
+  // const fetchData = useCallback(async () => {
+  //   try {
+  //     // Mengambil data dari Supabase secara paralel
+  //     const [projectsResponse, certificatesResponse] = await Promise.all([
+  //       supabase.from("projects").select("*").order('id', { ascending: true }),
+  //       supabase.from("certificates").select("*").order('id', { ascending: true }), 
+  //     ]);
+
+  //     // Error handling untuk setiap request
+  //     if (projectsResponse.error) throw projectsResponse.error;
+  //     if (certificatesResponse.error) throw certificatesResponse.error;
+
+  //     // Supabase mengembalikan data dalam properti 'data'
+  //     const projectData = projectsResponse.data || [];
+  //     const certificateData = certificatesResponse.data || [];
+
+  //     setProjects(projectData);
+  //     setCertificates(certificateData);
+
+  //     // Store in localStorage (fungsionalitas ini tetap dipertahankan)
+  //     localStorage.setItem("projects", JSON.stringify(projectData));
+  //     localStorage.setItem("certificates", JSON.stringify(certificateData));
+  //   } catch (error) {
+  //     console.error("Error fetching data from Supabase:", error.message);
+  //   }
+  // }, []);
+
+
+
+  // useEffect(() => {
+  //   // Coba ambil dari localStorage dulu untuk laod lebih cepat
+  //   const cachedProjects = localStorage.getItem('projects');
+  //   const cachedCertificates = localStorage.getItem('certificates');
+
+  //   if (cachedProjects && cachedCertificates) {
+  //       setProjects(JSON.parse(cachedProjects));
+  //       setCertificates(JSON.parse(cachedCertificates));
+  //   }
+    
+  //   fetchData(); // Tetap panggil fetchData untuk sinkronisasi data terbaru
+  // }, [fetchData]);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const toggleShowMore = useCallback((type) => {
+    if (type === 'projects') {
+      setShowAllProjects(prev => !prev);
+    } else {
+      setShowAllCertificates(prev => !prev);
+    }
+  }, []);
+
+  const displayedProjects = showAllProjects ? projects : projects.slice(0, initialItems);
+  const displayedCertificates = showAllCertificates ? certificates : certificates.slice(0, initialItems);
 
   // Sisa dari komponen (return statement) tidak ada perubahan
   return (
-    <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portofolio">
+    <div className="md:px-[10%] px-[5%] w-full sm:mt-0 mt-[3rem] bg-[#030014] overflow-hidden" id="Portfolio">
       {/* Header section - unchanged */}
       <div className="text-center pb-10" data-aos="fade-up" data-aos-duration="1000">
         <h2 className="inline-block text-3xl md:text-5xl font-bold text-center mx-auto text-transparent bg-clip-text bg-gradient-to-r from-[#6366f1] to-[#a855f7]">
@@ -132,7 +252,7 @@ export default function FullWidthTabs() {
             Portfolio Showcase
           </span>
         </h2>
-        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2">
+        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base mt-2 font-sans">
           Explore my journey through projects, certifications, and technical expertise. 
           Each section represents a milestone in my continuous learning path.
         </p>
@@ -225,11 +345,11 @@ export default function FullWidthTabs() {
           </Tabs>
         </AppBar>
 
-        <SwipeableViews
+        {/* <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={value}
           onChangeIndex={setValue}
-        >
+        > */}
           <TabPanel value={value} index={0} dir={theme.direction}>
             <div className="container mx-auto flex justify-center items-center overflow-hidden">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-5">
@@ -299,7 +419,7 @@ export default function FullWidthTabs() {
               </div>
             </div>
           </TabPanel>
-        </SwipeableViews>
+        {/* </SwipeableViews> */}
       </Box>
     </div>
   );

@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 const ContactPage = () => {
     return (
         <>
-            <div className="mt-10 pt-6 border-t border-white/10 flex justify-center space-x-6">
+            <div className="mt-10 pt-6 border-t border-white/10 flex justify-center space-x-6" id="Contact">
               <SocialLinks />
             </div>
         </>

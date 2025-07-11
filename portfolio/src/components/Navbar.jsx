@@ -4,12 +4,13 @@ import { Menu, X } from "lucide-react";
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("Home");
+    const [activeSection, setActiveSection] = useState("About");
     
     const navItems = [
-        { href: "#Home", label: "Home" },
+        
         { href: "#About", label: "About" },
-        { href: "#Portofolio", label: "Portofolio" },
+        { href: "#Education", label: "Education" },
+        { href: "#Portfolio", label: "Portfolio" },
         { href: "#Contact", label: "Contact" },
     ];
 
@@ -80,8 +81,8 @@ const Navbar = () => {
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <a
-                            href="#Home"
-                            onClick={(e) => scrollToSection(e, "#Home")}
+                            href="#About"
+                            onClick={(e) => scrollToSection(e, "#About")}
                             className="text-xl font-bold bg-gradient-to-r from-[#a855f7] to-[#6366f1] bg-clip-text text-transparent"
                         >
                             Soham-Amrutkar
